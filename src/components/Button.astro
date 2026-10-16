@@ -1,0 +1,49 @@
+---
+interface Props {
+  href: string;
+  variant?: 'primary' | 'text-link';
+  trackingLocation?: string;
+  external?: boolean;
+  class?: string;
+  id?: string;
+  ariaLabel?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  trackingLocation,
+  external = false,
+  class: className = '',
+  id,
+  ariaLabel,
+} = Astro.props;
+
+const isPrimary = variant === 'primary';
+---
+
+{isPrimary ? (
+  <a
+    href={href}
+    id={id}
+    class={`tap-target inline-flex items-center justify-center px-6 py-3.5 bg-[var(--primary)] text-[var(--on-primary)] text-[16px] font-medium tracking-wide rounded-none transition-opacity duration-150 hover:opacity-90 active:opacity-95 ${className}`}
+    target={external ? "_blank" : undefined}
+    rel={external ? "noopener noreferrer" : undefined}
+    data-wa-location={trackingLocation}
+    aria-label={ariaLabel}
+  >
+    <slot />
+  </a>
+) : (
+  <a
+    href={href}
+    id={id}
+    class={`inline-flex items-center py-2 text-[15px] font-medium text-[var(--primary)] underline underline-offset-4 decoration-[var(--outline)] transition-colors hover:decoration-[var(--primary)] active:opacity-80 min-h-[44px] ${className}`}
+    target={external ? "_blank" : undefined}
+    rel={external ? "noopener noreferrer" : undefined}
+    data-wa-location={trackingLocation}
+    aria-label={ariaLabel}
+  >
+    <slot />
+  </a>
+)}

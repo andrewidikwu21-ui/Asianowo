@@ -1,0 +1,70 @@
+---
+import type { ServiceItem } from '../data/site';
+import siteData from '../data/site';
+import { buildWhatsAppUrl } from '../utils/whatsapp';
+import Button from './Button.astro';
+
+interface Props {
+  service: ServiceItem;
+}
+
+const { service } = Astro.props;
+const whatsappUrl = buildWhatsAppUrl(siteData.contact.whatsappNumber, service.whatsappMessage);
+---
+
+<article class="card-primary p-6 sm:p-8 flex flex-col justify-between h-full border border-[var(--outline-variant)]">
+  <div>
+    <header class="mb-4">
+      <h3 class="text-[22px] sm:text-[24px] font-medium text-[var(--on-primary-container)] leading-snug">
+        {service.title}
+      </h3>
+      <p class="text-[14px] text-[var(--on-surface-variant)] font-normal mt-0.5">
+        {service.subtitle}
+      </p>
+    </header>
+
+    <p class="text-[15px] sm:text-[16px] text-[var(--on-primary-container)] leading-relaxed mb-6">
+      {service.description}
+    </p>
+
+    <div class="pt-4 border-t border-[var(--outline-variant)]/60 mb-6">
+      <p class="text-[13px] uppercase tracking-wider font-medium text-[var(--on-surface-variant)] mb-3">
+        What's included
+      </p>
+      <ul class="space-y-2 text-[14px] text-[var(--on-primary-container)] mb-4">
+        {service.included.map((item) => (
+          <li class="flex items-start gap-2">
+            <span class="text-[var(--secondary)] font-bold select-none leading-none mt-1" aria-hidden="true">•</span>
+            {item.includes('[PLACEHOLDER]') ? (
+              <span class="placeholder-text">{item}</span>
+            ) : (
+              <span>{item}</span>
+            )}
+          </li>
+        ))}
+      </ul>
+
+      <div class="text-[13px] text-[var(--on-surface-variant)] font-medium">
+        <span>Duration: </span>
+        {service.duration.includes('[PLACEHOLDER]') ? (
+          <span class="placeholder-text">{service.duration}</span>
+        ) : (
+          <span>{service.duration}</span>
+        )}
+      </div>
+    </div>
+  </div>
+
+  <div class="pt-4 border-t border-[var(--outline-variant)]/40 mt-auto">
+    <Button
+      href={whatsappUrl}
+      variant="text-link"
+      trackingLocation={`service-${service.id}`}
+      external={true}
+      ariaLabel={`Ask about ${service.title} on WhatsApp`}
+    >
+      Ask about this
+      <span class="ml-1 text-[17px]" aria-hidden="true">→</span>
+    </Button>
+  </div>
+</article>

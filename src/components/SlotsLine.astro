@@ -1,0 +1,31 @@
+---
+import siteData from '../data/site';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+const { monthlyTarget, month, slotsLeft } = siteData.availability;
+
+const isMonthPlaceholder = month.includes('[PLACEHOLDER]');
+const isSlotsPlaceholder = slotsLeft.includes('[PLACEHOLDER]');
+---
+
+<div class={`inline-flex items-center gap-2 text-[14px] sm:text-[15px] text-[var(--on-secondary-container)] font-medium ${className}`}>
+  <span class="inline-block w-2.5 h-2.5 rounded-full bg-[var(--secondary)] shrink-0" aria-hidden="true"></span>
+  <span>
+    Taking {monthlyTarget} clients a month.{" "}
+    {isMonthPlaceholder ? (
+      <span class="placeholder-text">{month}</span>
+    ) : (
+      <span>{month}</span>
+    )}:{" "}
+    {isSlotsPlaceholder ? (
+      <span class="placeholder-text">{slotsLeft}</span>
+    ) : (
+      <span>{slotsLeft}</span>
+    )}{" "}
+    slots left.
+  </span>
+</div>

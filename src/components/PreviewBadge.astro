@@ -1,0 +1,15 @@
+---
+import siteData from '../data/site';
+
+const isPreview = !siteData.LAUNCH;
+---
+
+{isPreview && (
+  <div
+    class="fixed bottom-2 right-2 md:bottom-3 md:right-3 z-50 bg-[#3B2823] text-[#F8F5F3] text-[11px] uppercase tracking-wider font-semibold px-2.5 py-1 rounded-sm shadow-md border border-[var(--outline)] select-none opacity-90 pointer-events-none"
+    role="status"
+    aria-label="Preview mode indicator"
+  >
+    PREVIEW: not live
+  </div>
+)}

@@ -1,0 +1,167 @@
+---
+import siteData from '../data/site';
+import PreviewBadge from '../components/PreviewBadge.astro';
+import StickyWhatsAppBar from '../components/StickyWhatsAppBar.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Asianowo | Wardrobe Styling & Closet Organising in Lagos",
+  description = "Wardrobe styling and closet organising for busy people and fashion brands in Lagos. From crowded closet to clear, elegant space. Taking 15 clients a month.",
+} = Astro.props;
+
+const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : `https://${siteData.contact.domain}`;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const ogImageUrl = `${siteUrl}/og-image.png`;
+
+// LocalBusiness JSON-LD (Service area: Lagos State, Nigeria; NO street address as per rule)
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": siteData.brand.name,
+  "description": description,
+  "url": siteUrl,
+  "telephone": siteData.contact.whatsappDisplay,
+  "priceRange": siteData.pricing.priceFrom,
+  "areaServed": {
+    "@type": "AdministrativeArea",
+    "name": siteData.brand.serviceArea
+  },
+  "sameAs": [
+    siteData.contact.instagramUrl
+  ]
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Preload critical Jost 400 font file -->
+    <link
+      rel="preload"
+      href="/fonts/jost-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Launch Gate: noindex when preview mode -->
+    {!siteData.LAUNCH ? (
+      <meta name="robots" content="noindex, nofollow" />
+    ) : (
+      <meta name="robots" content="index, follow" />
+    )}
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_NG" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Structured Data: LocalBusiness -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaJson)} />
+  </head>
+  <body class="bg-[var(--background)] text-[var(--on-surface)] selection:bg-[var(--primary-container)] selection:text-[var(--on-primary-container)]">
+    <slot />
+
+    <!-- Sticky Mobile WhatsApp Bar -->
+    <StickyWhatsAppBar />
+
+    <!-- Preview Mode Indicator -->
+    <PreviewBadge />
+
+    <!-- Lightweight Vanilla JS: Slider, Sticky Bar, and WhatsApp Click Tracking (< 1.5 KB uncompressed) -->
+    <script is:inline>
+      (function() {
+        // 1. Interactive Before/After Sliders
+        function initSliders() {
+          const sliders = document.querySelectorAll('[data-ba-slider]');
+          sliders.forEach(function(slider) {
+            const input = slider.querySelector('.ba-range-input');
+            if (!input) return;
+            function update() {
+              slider.style.setProperty('--pos', input.value + '%');
+            }
+            input.addEventListener('input', update);
+            input.addEventListener('change', update);
+          });
+        }
+
+        // 2. Mobile Sticky WhatsApp Bar Observer
+        function initStickyBar() {
+          const hero = document.getElementById('hero');
+          const stickyBar = document.getElementById('sticky-mobile-bar');
+          if (!hero || !stickyBar) return;
+
+          const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                // Hero is visible: hide sticky bar
+                stickyBar.classList.add('translate-y-full', 'pointer-events-none');
+                stickyBar.classList.remove('translate-y-0', 'pointer-events-auto');
+              } else {
+                // Hero scrolled out of view: show sticky bar
+                stickyBar.classList.remove('translate-y-full', 'pointer-events-none');
+                stickyBar.classList.add('translate-y-0', 'pointer-events-auto');
+              }
+            });
+          }, { threshold: 0.1 });
+
+          observer.observe(hero);
+        }
+
+        // 3. Analytics Tracking for WhatsApp Taps
+        function initAnalytics() {
+          document.addEventListener('click', function(e) {
+            const link = e.target.closest('a[data-wa-location]');
+            if (!link) return;
+            const location = link.getAttribute('data-wa-location');
+            
+            // Log for developer inspection / Cloudflare Web Analytics / Plausible
+            if (typeof window.plausible === 'function') {
+              window.plausible('WhatsApp_Click', { props: { location: location } });
+            }
+            // Custom event dispatch for analytics without cookies
+            window.dispatchEvent(new CustomEvent('asianowo:whatsapp_tap', { detail: { location: location } }));
+          });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', function() {
+            initSliders();
+            initStickyBar();
+            initAnalytics();
+          });
+        } else {
+          initSliders();
+          initStickyBar();
+          initAnalytics();
+        }
+      })();
+    </script>
+  </body>
+</html>

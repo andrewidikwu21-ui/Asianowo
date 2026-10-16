@@ -1,0 +1,435 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import BeforeAfterSlider from '../components/BeforeAfterSlider.astro';
+import SlotsLine from '../components/SlotsLine.astro';
+import siteData from '../data/site';
+import { buildWhatsAppUrl } from '../utils/whatsapp';
+
+// URLs for WhatsApp CTAs
+const consultationUrl = buildWhatsAppUrl(
+  siteData.contact.whatsappNumber,
+  siteData.messages.consultation
+);
+
+const brandsUrl = buildWhatsAppUrl(
+  siteData.contact.whatsappNumber,
+  siteData.messages.brands
+);
+
+const fragranceUrl = buildWhatsAppUrl(
+  siteData.contact.whatsappNumber,
+  siteData.addon.whatsappMessage
+);
+
+const waitlistUrl = buildWhatsAppUrl(
+  siteData.contact.whatsappNumber,
+  siteData.messages.fragranceWaitlist
+);
+
+const currentYear = new Date().getFullYear();
+---
+
+<Layout>
+  <!-- 1. HEADER (#top) -->
+  <header id="top" class="w-full border-b border-[var(--outline-variant)]/60 bg-[var(--background)]">
+    <div class="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8 py-5 flex items-center justify-between">
+      <a href="#top" class="font-display-title text-[38px] sm:text-[42px] text-[var(--primary)] hover:opacity-90 transition-opacity leading-none" aria-label="Asianowo Home">
+        Asianowo
+      </a>
+      <nav aria-label="Main Navigation">
+        <a
+          href="#brands"
+          class="tap-target text-[14px] sm:text-[15px] font-medium text-[var(--primary)] underline underline-offset-4 decoration-[var(--outline)] hover:decoration-[var(--primary)] transition-colors"
+        >
+          For brands
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="w-full overflow-x-hidden">
+    <!-- 2. HERO (#hero) -->
+    <section id="hero" class="w-full py-12 sm:py-16 md:py-24 border-b border-[var(--outline-variant)]/40 bg-[var(--background)]">
+      <div class="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8">
+        <div class="max-w-2xl">
+          <!-- Large Italianno Heading (min 36px on mobile, here 42px+) -->
+          <h1 class="font-display-title text-[42px] sm:text-[54px] md:text-[66px] text-[var(--primary)] font-normal leading-[1.1] tracking-tight mb-4 sm:mb-6">
+            From crowded closet to clear, elegant space.
+          </h1>
+
+          <!-- Subline (Jost) -->
+          <p class="font-body text-[18px] sm:text-[20px] md:text-[22px] text-[var(--on-surface)] leading-snug mb-3">
+            Wardrobe styling and closet organising for busy people and fashion brands in Lagos.
+          </p>
+
+          <!-- Name line & pronunciation -->
+          <p class="text-[14px] sm:text-[15px] text-[var(--on-surface-variant)] leading-normal mb-8">
+            Asianowo ({siteData.brand.pronunciation}) is {siteData.brand.originLanguage} for '{siteData.brand.meaning}.'
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mb-8">
+            <Button
+              href={consultationUrl}
+              variant="primary"
+              trackingLocation="hero"
+              external={true}
+              ariaLabel="Book a consultation on WhatsApp"
+            >
+              Book a consultation
+            </Button>
+
+            <Button
+              href="#work"
+              variant="text-link"
+              trackingLocation="hero-see-work"
+              external={false}
+              ariaLabel="Jump to see the before and after work"
+            >
+              See the before &amp; after
+              <span class="ml-1 text-[17px]" aria-hidden="true">↓</span>
+            </Button>
+          </div>
+
+          <!-- Availability line in --secondary -->
+          <SlotsLine />
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. THE PROBLEM (#problem) -->
+    <section id="problem" class="w-full py-14 sm:py-16 md:py-20 border-b border-[var(--outline-variant)]/40 bg-[var(--background)]">
+      <div class="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8">
+        <div class="max-w-xl">
+          <SectionHeading tag="h2" class="mb-3">
+            So many clothes. Nothing to wear.
+          </SectionHeading>
+          <p class="text-[17px] sm:text-[18px] text-[var(--on-surface-variant)] leading-relaxed">
+            A crowded wardrobe makes getting dressed harder than it should be. We make it clear again.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. BEFORE & AFTER (#work) [plain --background] -->
+    <section id="work" class="w-full py-16 sm:py-20 md:py-24 border-b border-[var(--outline-variant)]/40 bg-[var(--background)]">
+      <div class="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-12">
+          <div>
+            <SectionHeading tag="h2" class="mb-2">
+              The reset, in pictures.
+            </SectionHeading>
+            <p class="text-[14px] sm:text-[15px] text-[var(--on-surface-variant)]">
+              Drag or use arrow keys to slide between before and after.
+            </p>
+          </div>
+          <a
+            href={siteData.contact.instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tap-target text-[15px] font-medium text-[var(--primary)] underline underline-offset-4 decoration-[var(--outline)] hover:decoration-[var(--primary)] transition-colors self-start sm:self-auto"
+            data-wa-location="work-instagram"
+          >
+            More on Instagram ({siteData.contact.instagramDisplay})
+            <span class="ml-1 text-[17px]" aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        <!-- 3 Project Cards with Before/After Slider -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
+          {siteData.projects.map((project) => (
+            <BeforeAfterSlider project={project} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. SERVICES (#services) [cards on --primary-container] -->
+    <section id="services" class="w-full py-16 sm:py-20 md:py-24 border-b border-[var(--outline-variant)]/40 bg-[var(--background)]">
+      <div class="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8">
+        <div class="max-w-2xl mb-8 sm:mb-10">
+          <SectionHeading tag="h2" class="mb-2">
+            How we can help.
+          </SectionHeading>
+          <!-- Pricing baseline statement above service cards -->
+          <p class="text-[16px] sm:text-[17px] font-medium text-[var(--primary)]">
+            Projects start from {siteData.pricing.priceFrom}.
+          </p>
+        </div>
+
+        <!-- 3 Service Cards on --primary-container -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-8">
+          {siteData.services.map((service) => (
+            <ServiceCard service={service} />
+          ))}
+        </div>
+
+        <!-- Add-on Strip (--secondary-container) -->
+        <aside class="p-6 sm:p-8 bg-[var(--secondary-container)] text-[var(--on-secondary-container)] border border-[var(--secondary)]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="inline-block text-[11px] uppercase tracking-wider font-semibold bg-[var(--secondary)] text-white px-2 py-0.5 mb-2">
+              Add-on
+            </div>
+            <h3 class="text-[18px] sm:text-[19px] font-medium leading-snug">
+              {siteData.addon.title}
+            </h3>
+            <p class="text-[15px] opacity-90 mt-0.5">
+              {siteData.addon.description}
+            </p>
+          </div>
+          <div class="flex items-center gap-4 sm:self-center shrink-0">
+            <span class="text-[15px] font-semibold">{siteData.addon.price}</span>
+            <Button
+              href={fragranceUrl}
+              variant="text-link"
+              trackingLocation="addon-fragrance"
+              external={true}
+              class="text-[var(--on-secondary-container)] decoration-[var(--secondary)] hover:decoration-[var(--on-secondary-container)]"
+              ariaLabel="Ask about fragrance curation on WhatsApp"
+            >
+              Ask about this
+              <span class="ml-1 text-[17px]" aria-hidden="true">→</span>
+            </Button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 6. HOW IT WORKS (#how) [--primary-container background] -->
+    <section id="how" class="w-full py-16 sm:py-20 md:py-24 bg-[var(--primary-container)] text-[var(--on-primary-container)] border-b border-[var(--outline-variant)]/60">
+      <div class="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8">
+        <div class="max-w-2xl mb-10 sm:mb-14">
+          <SectionHeading tag="h2" class="mb-3 text-[var(--on-primary-container)]">
+            How it works.
+          </SectionHeading>
+          <p class="text-[16px] text-[var(--on-primary-container)]/80">
+            A simple, four-step process from initial message to a lasting system.
+          </p>
+        </div>
+
+        <!-- 4 Steps Grid -->
+        <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-10">
+          {siteData.howItWorks.map((item) => (
+            <li class="border-t border-[var(--outline)]/30 pt-4">
+              <span class="block text-[28px] font-display-title text-[var(--primary)] mb-2" aria-hidden="true">
+                0{item.step}
+              </span>
+              <p class="text-[16px] sm:text-[17px] font-medium text-[var(--on-primary-container)] leading-snug">
+                {item.text}
+              </p>
+            </li>
+          ))}
+        </ol>
+
+        <p class="text-[14px] sm:text-[15px] text-[var(--on-surface-variant)] pt-4 border-t border-[var(--outline)]/20">
+          {siteData.travelNote}
+        </p>
+      </div>
+    </section>
+
+    <!-- 7. PRICING NOTE (#pricing) -->
+    <section id="pricing" class="w-full py-12 sm:py-16 border-b border-[var(--outline-variant)]/40 bg-[var(--background)]">
+      <div class="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8">
+        <div class="max-w-2xl">
+          <h2 class="text-[14px] uppercase tracking-wider font-semibold text-[var(--primary)] mb-2">
+            Pricing
+          </h2>
+          <p class="text-[16px] sm:text-[17px] text-[var(--on-surface)] leading-relaxed mb-3">
+            Projects start from {siteData.pricing.priceFrom} and depend on the size of your wardrobe or space. Message us for an exact quote.
+          </p>
+          <p class="text-[14px] sm:text-[15px] text-[var(--on-surface-variant)]">
+            Outside Lagos: travel and accommodation are added.{" "}
+            {siteData.pricing.travelFeeNote.includes('[PLACEHOLDER]') ? (
+              <span class="placeholder-text">{siteData.pricing.travelFeeNote}</span>
+            ) : (
+              <span>{siteData.pricing.travelFeeNote}</span>
+            )}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. FOR BRANDS (#brands) -->
+    <section id="brands" class="w-full py-16 sm:py-20 md:py-24 border-b border-[var(--outline-variant)]/40 bg-[var(--background)]">
+      <div class="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8">
+        <div class="max-w-2xl">
+          <SectionHeading tag="h2" class="mb-4">
+            {siteData.forBrands.heading}
+          </SectionHeading>
+
+          <ul class="space-y-3 mb-6 text-[16px] sm:text-[17px] text-[var(--on-surface)]">
+            {siteData.forBrands.items.map((item) => (
+              <li class="flex items-start gap-3">
+                <span class="text-[var(--secondary)] font-bold select-none leading-none mt-1.5" aria-hidden="true">•</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+
+          <p class="text-[15px] font-medium text-[var(--on-surface-variant)] mb-6">
+            Pricing: {siteData.forBrands.priceDisplay}
+          </p>
+
+          <Button
+            href={brandsUrl}
+            variant="primary"
+            trackingLocation="brands"
+            external={true}
+            ariaLabel="Talk to us about your store on WhatsApp"
+          >
+            {siteData.forBrands.buttonText}
+          </Button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. STORY (#story) -->
+    <section id="story" class="w-full py-16 sm:py-20 md:py-24 border-b border-[var(--outline-variant)]/40 bg-[var(--background)]">
+      <div class="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8">
+        <div class="max-w-2xl">
+          <SectionHeading tag="h2" class="mb-6">
+            {siteData.story.heading}
+          </SectionHeading>
+          <p class="text-[16px] sm:text-[17px] md:text-[18px] text-[var(--on-surface)] leading-relaxed mb-6 font-normal">
+            {siteData.story.copy}
+          </p>
+
+          <!-- Optional portrait slot [PHOTO placeholder]. Hide if null. -->
+          {siteData.story.portrait && (
+            <div class="mt-8 border border-[var(--outline-variant)] p-4 max-w-sm">
+              <span class="placeholder-text">[PHOTO placeholder]</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. TESTIMONIALS (#kind-words) (Render ONLY if testimonials exist in site.ts) -->
+    {siteData.testimonials && siteData.testimonials.length > 0 && (
+      <section id="kind-words" class="w-full py-16 sm:py-20 md:py-24 border-b border-[var(--outline-variant)]/40 bg-[var(--background)]">
+        <div class="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8">
+          <SectionHeading tag="h2" class="mb-8">
+            Kind words.
+          </SectionHeading>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {siteData.testimonials.map((t) => (
+              <blockquote class="p-6 bg-[var(--primary-container)] text-[var(--on-primary-container)] border-l-2 border-[var(--primary)]">
+                <p class="text-[16px] italic mb-3">"{t.quote}"</p>
+                <cite class="text-[14px] not-italic font-medium text-[var(--on-surface-variant)] block">
+                  — {t.client}
+                </cite>
+              </blockquote>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- 11. FINAL CTA (#book) -->
+    <section id="book" class="w-full py-16 sm:py-24 md:py-28 bg-[var(--background)]">
+      <div class="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8 text-center sm:text-left">
+        <div class="max-w-xl">
+          <SectionHeading tag="h2" class="mb-6">
+            Ready for a clearer wardrobe?
+          </SectionHeading>
+          
+          <div class="mb-6">
+            <Button
+              href={consultationUrl}
+              variant="primary"
+              trackingLocation="final-cta"
+              external={true}
+              ariaLabel="Book a consultation on WhatsApp"
+            >
+              Book a consultation
+            </Button>
+          </div>
+
+          <SlotsLine />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 12. FOOTER [--primary background, white text] -->
+  <footer class="w-full bg-[var(--primary)] text-[var(--on-primary)] pt-16 pb-24 md:pb-16 border-t border-[var(--primary)]">
+    <div class="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 pb-12 border-b border-white/15">
+        <div>
+          <!-- Wordmark -->
+          <a href="#top" class="font-display-title text-[44px] text-white hover:opacity-90 transition-opacity leading-none block mb-4" aria-label="Asianowo Home">
+            Asianowo
+          </a>
+          <p class="text-[14px] text-white/80 max-w-sm mb-4">
+            {siteData.brand.tagline} Wardrobe styling and closet curation based in {siteData.brand.location}.
+          </p>
+          <p class="text-[13px] text-white/60">
+            © {currentYear} {siteData.brand.name}. All rights reserved.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <!-- Links -->
+          <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-[15px]">
+            <a
+              href={siteData.contact.instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="tap-target underline underline-offset-4 decoration-white/40 hover:decoration-white transition-colors"
+              data-wa-location="footer-instagram"
+            >
+              Instagram ({siteData.contact.instagramDisplay})
+            </a>
+            <a
+              href={consultationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="tap-target underline underline-offset-4 decoration-white/40 hover:decoration-white transition-colors"
+              data-wa-location="footer-whatsapp"
+            >
+              WhatsApp ({siteData.contact.whatsappDisplay})
+            </a>
+            {siteData.contact.email && (
+              <a
+                href={`mailto:${siteData.contact.email}`}
+                class="tap-target underline underline-offset-4 decoration-white/40 hover:decoration-white transition-colors"
+              >
+                {siteData.contact.email}
+              </a>
+            )}
+          </div>
+
+          <!-- Coming-soon line with --secondary tag -->
+          <div class="pt-4 border-t border-white/10">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="inline-block text-[11px] uppercase tracking-wider font-semibold bg-[var(--secondary)] text-white px-2 py-0.5">
+                Coming soon
+              </span>
+              <span class="text-[14px] text-white/90">
+                Asianowo fragrance and wardrobe essentials.
+              </span>
+            </div>
+            <a
+              href={waitlistUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center text-[14px] text-white underline underline-offset-4 decoration-white/50 hover:decoration-white transition-colors min-h-[44px]"
+              data-wa-location="footer-fragrance-waitlist"
+            >
+              Message us to be first
+              <span class="ml-1 text-[16px]" aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <!-- Privacy Note -->
+          <p class="text-[12px] text-white/70 leading-relaxed pt-2">
+            We take client privacy seriously. We only share project photos with written consent, and we never show faces or addresses.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</Layout>
